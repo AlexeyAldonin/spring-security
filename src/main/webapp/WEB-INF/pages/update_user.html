@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="text-align:left">
+    <a th:href="@{/}">To All Users</a>
+</div>
+<form th:action="@{/edit}" th:object="${user}">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <fieldset style="display: inline">
+        <legend>Edit user</legend>
+        <p>
+            <input type="text" name="name" th:id="name" th:value="${user.name}" required>
+            <label th:for="name">Name </label>
+        </p>
+        <p>
+            <input type="number" name="age" th:id="age" th:value="${user.age}" required>
+            <label th:for="age">Age  </label>
+        </p>
+    </fieldset>
+    <br>
+    <input type="submit" value="Modify User">
+</form>
+</body>
+</html>

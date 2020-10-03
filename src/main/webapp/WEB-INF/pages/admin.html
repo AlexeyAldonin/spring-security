@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 300px;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+        }
+
+        th {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <a th:href="@{user}"> User Details </a>|
+    <a th:href="@{logout}"> Logout </a>
+</div>
+<div>
+    <form th:action="@{admin/createUser}" method="post" th:object="${newUser}">
+        <fieldset style="display: inline">
+            <legend>Create new User</legend>
+            <p>
+                <input type="text" name="name" th:id="userName" required placeholder="New User Name">
+                <label th:for="userName">UserName</label>
+            </p>
+            <p>
+                <input type="number" name="age" th:id="age" required placeholder="User Age">
+                <label th:for="userName">UserName</label>
+            </p>
+            <p>
+                <input type="password" name="password" th:id="password" required placeholder="Password">
+                <label th:for="password">Password</label>
+            </p>
+            <p>
+                <select multiple name="roles" size="3" th:id="roles" required>
+                    <option disabled>Select roles</option>
+                    <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.name}"></option>
+                </select>
+                <label th:for="roles">Roles </label>
+            </p>
+        </fieldset>
+        <br>
+        <input type="submit" value="Create user">
+    </form>
+</div>
+<div>
+    <h2>Users</h2>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>UserName</th>
+            <th>Password</th>
+            <th>Roles</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        <th:block th:each="user : ${users}">
+            <tr>
+                <td th:utext="${user.id}"></td>
+                <td th:utext="${user.username}"></td>
+                <td th:utext="${user.password}"></td>
+                <td>
+                    <th:block th:each="role : ${user.roles}">
+                        <a th:text="${role.name} + ';'"></a>
+                    </th:block>
+                </td>
+                <td>
+                    <form th:action="@{admin/editUser/{id}(id=${user.id})}" method="post" th:object="${user}">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{admin/deleteUser/{id}(id=${user.id})}" method="post" th:object="${user}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+</html>
