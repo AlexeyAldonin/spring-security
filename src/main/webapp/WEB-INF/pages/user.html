@@ -5,10 +5,23 @@
 <head>
     <meta charset="UTF-8">
     <title>User Page</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 300px;
+        }
+        table, td, th {
+            border: 1px solid black;
+        }
+        th {
+            height: 50px;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <a th:href="@{/logout}"> Logout </a>
+    <a th:href="@{/logout}"> Logout </a><br>
+    <a th:href="@{/admin}"> To All Users(ADMIN access only) </a>
 </div>
 <h1>User Details</h1>
 <!--/*@thymesVar id="user" type="app.model.User"*/-->

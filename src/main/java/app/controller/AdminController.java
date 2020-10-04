@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminController {
 
     @Autowired
@@ -25,7 +23,7 @@ public class AdminController {
     @Autowired
     RoleService roleService;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/admin")
     public String getAllUsers(ModelMap model) {
         List<User> listUsers = userService.getAll();
         List<Role> roles = roleService.getAll();
@@ -38,25 +36,27 @@ public class AdminController {
     @PostMapping(value = "/createUser")
     public String addUser(@ModelAttribute("user") User user) {
         userService.save(user);
-        return "/admin";
+        return "redirect:/admin";
     }
 
     @PostMapping("/deleteUser/{id}")
     public String deleteUserById(@PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:admin";
+        return "redirect:/admin";
     }
 
-    @GetMapping(value = "/editUser/{id}")
+    @PostMapping(value = "/editUser/{id}")
     public String editUser(ModelMap model, @PathVariable("id") Long id) {
         User user = userService.getById(id);
         model.addAttribute("user", user);
+        List<Role> all = roleService.getAll();
+        model.addAttribute("allRoles", all);
         return "update_user";
     }
 
-    @GetMapping(value = "/edit")
+    @PostMapping(value = "/edit")
     public String edit(@ModelAttribute("user") User user) {
         userService.update(user);
-        return "redirect:admin";
+        return "redirect:/admin";
     }
 }
